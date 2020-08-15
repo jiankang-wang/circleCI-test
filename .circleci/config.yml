@@ -3,5 +3,8 @@ jobs:
   build:
     docker:
       - image:  circleci/node:10
+    branches:
+      only:
+        - master
     steps:
       - run: echo "test"
