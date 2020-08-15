@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image:  circleci/node:10
+      - image: circleci/node:10
     branches:
       only:
         - master
@@ -11,6 +11,24 @@ jobs:
           fingerprints:
             - "97:e6:6c:e0:56:59:54:28:25:84:7a:bd:bf:45:3d:54"
       - checkout
+      - restore_cache:
+          keys:
+            - dependencies_imooc
       - run:
-        name: Install
-        command:  yarn install
+          name: Install
+          command: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies_imooc
+      - run:
+          name: Build
+          command: yarn build
+      - run:
+          name: Prepare shell commands
+          # shell chmod +x 赋予执行权限
+          # 执行shell脚本
+          command: chmod +x scripts/deploy.sh
+      - run:
+          name: Run Deploy to Github pages
+          command: ./scripts/deploy.sh
