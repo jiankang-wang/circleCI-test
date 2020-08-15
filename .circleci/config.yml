@@ -7,4 +7,8 @@ jobs:
       only:
         - master
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "97:e6:6c:e0:56:59:54:28:25:84:7a:bd:bf:45:3d:54"
+      - checkout
       - run: echo "test"
